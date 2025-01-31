@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     devtools: {enabled: true},
     modules: ['nuxt-auth-utils'],
     extends: [
-        ['github:Kazkovy-Kit/ui', {install: true}]
+        '@kazkovy-kit/ui'
     ],
     runtimeConfig: {
         oauth: {

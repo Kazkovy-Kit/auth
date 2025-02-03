@@ -7,7 +7,7 @@ const {user, clear} = useUserSession();
 const router = useRouter();
 
 async function logout() {
-  await router.push("/login");
+  await router.push({name: 'login'});
   await nextTick(async () => {
     await clear();
   });
@@ -15,7 +15,13 @@ async function logout() {
 </script>
 
 <template>
-  <DropdownMenu>
+  <Alert v-if="!user" variant="destructive">
+    <AlertDescription>
+      {{ t('user_not_found') }}
+    </AlertDescription>
+  </Alert>
+
+  <DropdownMenu v-else>
     <DropdownMenuTrigger as-child>
       <SidebarMenuButton
           size="lg"
@@ -60,6 +66,7 @@ async function logout() {
           </div>
         </div>
       </DropdownMenuLabel>
+      <slot/>
       <DropdownMenuSeparator/>
       <DropdownMenuItem class="hover:cursor-pointer" @click="logout">
         <Icon name="lucide:log-out"/>
@@ -72,9 +79,11 @@ async function logout() {
 <i18n lang="json">
 {
   "en": {
+    "user_not_found": "There was an error fetching user, something went wrong, and user is null.",
     "logout": "Logout"
   },
   "uk": {
+    "user_not_found": "Виникла помилка при отримані користувача, користувача не існує.",
     "logout": "Вийти"
   }
 }
